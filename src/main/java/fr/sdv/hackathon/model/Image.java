@@ -24,6 +24,13 @@ public class Image {
     private User user;
 
     @NotBlank
-    private String content;
+    private String name;
+
+    @NotBlank
+    private String extension;
+
+    @NotBlank
+    @Lob
+    private byte[] data;
 
 }
