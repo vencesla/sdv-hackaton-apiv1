@@ -10,4 +10,6 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     List<Vote> findAllByUser1(User user);
 
+    List<Vote> findAllByUser2(User user);
+
 }
