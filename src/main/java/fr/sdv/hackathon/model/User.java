@@ -41,4 +41,6 @@ public class User {
     @Pattern(regexp = "employee|employer")
     private String gender;
 
+    private String country;
+
 }

@@ -16,12 +16,17 @@ public class UserController {
         return userService.add(email, password);
     }
 
+    @GetMapping("/user/owner")
+    public User getOwner() {
+        return userService.getConnected();
+    }
+
     @GetMapping("/user/random")
     public User random() {
         return userService.getRandom();
     }
 
-    @PutMapping()
+    @PutMapping("/user")
     public User update(@RequestBody User user) {
         return userService.update(user);
     }
