@@ -13,11 +13,12 @@ import org.springframework.web.client.HttpClientErrorException;
 @Service
 public class VoteService {
 
+    private final MatchService matchService;
     private final UserService userService;
     private final UserRepository userRepository;
     private final VoteRepository voteRepository;
 
-    public Vote add(Long userId, Boolean isLike) {
+    public Boolean add(Long userId, Boolean isLike) {
         User connectedUser = userService.getConnected();
         User likedUser = userRepository.findById(userId)
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
@@ -32,7 +33,9 @@ public class VoteService {
                 .isLike(isLike)
                 .build();
 
-        return voteRepository.save(vote);
+        voteRepository.save(vote);
+
+        return matchService.hasMatch(vote);
     }
 
 }

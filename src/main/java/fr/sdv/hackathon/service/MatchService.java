@@ -32,4 +32,9 @@ public class MatchService {
                 .toList();
     }
 
+    public Boolean hasMatch(Vote vote) {
+        return voteRepository.findAllByUser1(vote.getUser2()).stream()
+                .anyMatch(vote2 -> vote.getUser1().equals(vote2.getUser2()));
+    }
+
 }

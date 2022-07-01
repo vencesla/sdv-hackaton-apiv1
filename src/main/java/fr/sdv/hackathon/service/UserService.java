@@ -11,10 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -53,7 +51,9 @@ public class UserService {
         List<User> users = userRepository.findAll().stream()
                 .filter(user ->
                         !user.getId().equals(connectedUser.getId())
-                        && votes.stream().noneMatch(vote -> vote.getUser2().equals(user)))
+                        && votes.stream().noneMatch(vote -> vote.getUser2().equals(user))
+                        && !user.getGender().equals(connectedUser.getGender())
+                        && user.getCountry().equals(connectedUser.getCountry()))
                 .toList();
 
         if(users.isEmpty()) return null;
@@ -71,6 +71,7 @@ public class UserService {
             throw new HttpClientErrorException(HttpStatus.NOT_MODIFIED);
         }
 
+        user.setCountry(user.getCountry().toUpperCase());
         user.setPassword(connectedUser.getPassword());
 
         return userRepository.save(user);
